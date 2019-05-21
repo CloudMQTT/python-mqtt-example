@@ -26,7 +26,11 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 import paho.mqtt.client as mqtt
-import os, urlparse
+import os
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
 
 # Define event callbacks
 def on_connect(client, userdata, flags, rc):
@@ -56,7 +60,7 @@ mqttc.on_subscribe = on_subscribe
 
 # Parse CLOUDMQTT_URL (or fallback to localhost)
 url_str = os.environ.get('CLOUDMQTT_URL', 'mqtt://localhost:1883')
-url = urlparse.urlparse(url_str)
+url = urlparse(url_str)
 topic = url.path[1:] or 'test'
 
 # Connect
